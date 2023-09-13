@@ -9,23 +9,24 @@ env:
   MY_AWS_REGION: 'ap-northeast-1'
   AWS_ROLENAME: 'Git-TEST'
   AWS_S3_BUCKET: 's3-ustv-stg'
-  SOURCE_DIR: '.'
-  DEST_DIR: 'dir'
+#  SOURCE_DIR: '.'
+#  DEST_DIR: 'dir'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
+#    permissions:
+#      id-token: write
+#      contents: read
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
+#    - name: Checkout
+#      uses: actions/checkout@master
     - name: Configure AWS credentials with IAM Role
-      uses: aws-actions/configure-aws-credentials@main
+#      uses: aws-actions/configure-aws-credentials@main
       with:
         role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/${{env.AWS_ROLENAME}}
         aws-region: ${{env.MY_AWS_REGION}}
-    - name: Copy files to S3
+    - name: ls files to S3
       run: |
-          aws s3 sync ${{env.SOURCE_DIR}} s3://${{env.AWS_S3_BUCKET}}/${{env.DEST_DIR}}/ --exclude '.*git*'
+#          aws s3 sync ${{env.SOURCE_DIR}} s3://${{env.AWS_S3_BUCKET}}/${{env.DEST_DIR}}/ --exclude '.*git*'
+          aws s3 ls s3://${{env.AWS_S3_BUCKET}}
