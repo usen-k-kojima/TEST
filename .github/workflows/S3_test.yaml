@@ -2,28 +2,23 @@ name: List files to S3
 
 on:
   push:
-    branches:
-    - main
 
 env:
 #  MY_AWS_REGION: 'us-east-1'
   MY_AWS_REGION: 'ap-northeast-1'
   AWS_ROLENAME: 'Git-TEST'
   AWS_S3_BUCKET: 's3-ustv-stg'
-#  SOURCE_DIR: '.'
-#  DEST_DIR: 'dir'
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
     steps:
-#    - name: Checkout
-#      uses: actions/checkout@master
     - name: Configure AWS credentials with IAM Role
-#      uses: aws-actions/configure-aws-credentials@main
+      uses: aws-actions/configure-aws-credentials@main
       with:
         role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/${{env.AWS_ROLENAME}}
         aws-region: ${{env.MY_AWS_REGION}}
